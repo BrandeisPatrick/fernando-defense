@@ -29,6 +29,8 @@ window.SITE_CONFIG = {
     talkTitle: "Molecules at Quantum-Material Interfaces: Fano Resonances, Topological Chemisorption & Spin",
     zoomLink: "",
     durationHours: 2,
+    revision: 1,   // bump by 1 whenever the date/time changes — makes re-downloaded
+                   // calendar files REPLACE the old event instead of duplicating it
   }
 };
 </script>
@@ -717,6 +719,7 @@ window.SITE_CONFIG = {
         "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//fernando-phd//EN",
         "BEGIN:VEVENT",
         "UID:fernando-defense@phd.party",
+        "SEQUENCE:" + (CFG.revision || 0),
         "DTSTAMP:" + icsDate(new Date()),
         "DTSTART:" + icsDate(target),
         "DTEND:" + icsDate(endDate),
