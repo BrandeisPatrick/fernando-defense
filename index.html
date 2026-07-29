@@ -140,7 +140,7 @@ window.SITE_CONFIG = {
   #theme-toggle svg { vertical-align: middle; }
 
   /* ── the scroll journey ── */
-  #journey { height: 650vh; position: relative; }
+  #journey { height: 980vh; position: relative; }
   .stage {
     position: fixed;
     inset: 0;
@@ -1150,7 +1150,7 @@ function init() {
   const clock = new THREE.Clock();
   function frame() {
     const t = clock.getElapsedTime();
-    if (P_FREEZE === null) prog += (targetP - prog) * 0.085;
+    if (P_FREEZE === null) prog += (targetP - prog) * 0.07;
     else prog = P_FREEZE;
     const p = prog;
 
