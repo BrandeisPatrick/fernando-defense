@@ -1058,17 +1058,23 @@ function init() {
   scene.add(spinGrp);
 
   /* ═══ camera path ═══ */
+  /* camera path with slow-drift "interstitial" holds between chapters */
   const KEYS = [
     [0.00, [0, 0.6, 8.5],   [0, 0.3, 0]],
-    [0.12, [3.0, 1.4, 0.5], [0, 0.1, -14]],
-    [0.20, [8.6, 1.6, -21.6],[0, -1.3, -31]],
-    [0.29, [7.4, 1.0, -25.2],[3.9, -0.9, -29.6]],
-    [0.35, [6.6, 1.2, -25.8],[4.6, -0.3, -29.8]],
-    [0.44, [2.2, 0.8, -43],  [-1, -0.9, -60]],
+    [0.10, [1.6, 1.5, 4.0], [-1.5, 1.2, -8]],
+    [0.135,[3.2, 1.9, 0.8], [-2.6, 0.6, -16]],   /* interstitial 1: arcs sweep past, chain far ahead */
+    [0.185,[3.7, 2.0, -1.6],[-2.2, 0.4, -22]],
+    [0.24, [8.6, 1.6, -21.6],[0, -1.3, -31]],
+    [0.30, [7.4, 1.0, -25.2],[3.9, -0.9, -29.6]],
+    [0.375,[6.6, 1.2, -25.8],[4.6, -0.3, -29.8]],
+    [0.42, [4.4, 1.1, -34],  [-0.5, -0.5, -56]], /* interstitial 2: quantum dot floats far ahead */
+    [0.465,[3.4, 1.0, -37.5],[-0.8, -0.4, -58]],
     [0.52, [0.4, 0.3, -50],  [-0.6, -1.0, -60]],
-    [0.62, [3.2, 4.6, -71],  [0, -2.6, -90]],
-    [0.74, [0, 4.4, -79],    [0.2, -2.5, -90]],
-    [0.86, [-1.4, 5.0, -81.5],[0, -2.4, -90.5]],
+    [0.60, [0.2, 0.35, -50.5],[-0.6, -0.9, -60]],
+    [0.655,[1.8, 1.8, -63],  [0.3, -1.9, -80]],  /* interstitial 3: lattice as a distant dotted plane */
+    [0.70, [3.2, 4.6, -71],  [0, -2.6, -90]],
+    [0.80, [0, 4.4, -79],    [0.2, -2.5, -90]],
+    [0.875,[-1.4, 5.0, -81.5],[0, -2.4, -90.5]],
     [1.00, [0, 15, -58],     [0, -3, -78]],
   ];
   const ss = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
@@ -1090,10 +1096,10 @@ function init() {
 
   /* ═══ stage card windows ═══ */
   const STAGES = [
-    ["st-hero", -1, 0, 0.055, 0.105],
-    ["st-chain", 0.155, 0.195, 0.315, 0.365],
-    ["st-fano", 0.415, 0.455, 0.555, 0.60],
-    ["st-weyl", 0.645, 0.685, 0.795, 0.845],
+    ["st-hero", -1, 0, 0.055, 0.10],
+    ["st-chain", 0.245, 0.285, 0.355, 0.395],
+    ["st-fano", 0.49, 0.53, 0.575, 0.615],
+    ["st-weyl", 0.695, 0.735, 0.815, 0.86],
     ["st-hand", 0.885, 0.925, 1.1, 1.2],
   ].map(([id, a, b, c, d]) => [document.getElementById(id), a, b, c, d]);
 
@@ -1158,9 +1164,9 @@ function init() {
 
     /* chapter visibility windows — keep distant chapters from ghosting through the fog */
     const showHero = p < 0.24;
-    const showChain = p < 0.40;
-    const showFano = p > 0.365 && p < 0.66;
-    const showWeyl = p > 0.60;
+    const showChain = p < 0.44;
+    const showFano = p > 0.40 && p < 0.635;
+    const showWeyl = p > 0.63;
     orbitGrp.visible = showHero;
     chainGrp.visible = showChain;
     edgeGlowL.visible = showChain; edgeGlowR.visible = showChain;
@@ -1190,7 +1196,7 @@ function init() {
     }
 
     /* chapter 1: chain assembly, edge glow, docking */
-    const uAsm = ss(0.155, 0.27, p);
+    const uAsm = ss(0.13, 0.28, p);
     for (let i = 0; i < CHAIN_N; i++) {
       const d0 = Math.abs(i - (CHAIN_N - 1) / 2) / (CHAIN_N / 2);
       const ui = ss(d0 * 0.55, d0 * 0.55 + 0.45, uAsm);
@@ -1201,13 +1207,13 @@ function init() {
       const ui = ss(0.35, 1, uAsm);
       b.scale.y = Math.max(0.001, b.userData.len * ui);
     }
-    const edgePulse = (0.72 + 0.28 * Math.sin(t * 3.2)) * ss(0.24, 0.30, p) * (1 - ss(0.40, 0.46, p));
-    mats.gold.emissiveIntensity = 0.55 * edgePulse + 0.35 * ss(0.62, 0.68, p) * (1 - ss(0.86, 0.92, p));
+    const edgePulse = (0.72 + 0.28 * Math.sin(t * 3.2)) * ss(0.29, 0.34, p) * (1 - ss(0.43, 0.49, p));
+    mats.gold.emissiveIntensity = 0.55 * edgePulse + 0.35 * ss(0.66, 0.72, p) * (1 - ss(0.88, 0.94, p));
     edgeGlowL.material.opacity = 0.75 * edgePulse;
     edgeGlowR.material.opacity = 0.85 * edgePulse;
-    const uDock = ss(0.285, 0.335, p);
+    const uDock = ss(0.315, 0.365, p);
     if (uDock > 0 && uDock < 1.01) {
-      dockMol.visible = p < 0.40;
+      dockMol.visible = p < 0.42;
       const start = V2.set(dockTarget.x - 3.5, dockTarget.y + 6.5, dockTarget.z - 5);
       dockMol.position.lerpVectors(start, dockTarget, uDock);
       dockMol.position.y += Math.sin(uDock * Math.PI) * 1.6;
@@ -1217,8 +1223,8 @@ function init() {
     } else { dockMol.visible = false; dockGlow.material.opacity = 0; }
 
     /* chapter 2: Fano ripples */
-    const fanoOn = ss(0.43, 0.485, p) * (1 - ss(0.58, 0.64, p));
-    const spread = 0.6 + 4.5 * ss(0.45, 0.58, p);
+    const fanoOn = ss(0.50, 0.545, p) * (1 - ss(0.60, 0.66, p));
+    const spread = 0.6 + 4.5 * ss(0.51, 0.62, p);
     for (let i = 0; i < RINGS_PER; i++) {
       const phase = (i / RINGS_PER + t * 0.06) % 1;
       const rA = 2.3 + phase * spread;
@@ -1235,17 +1241,17 @@ function init() {
     qd.rotation.y = t * 0.15;
 
     /* chapter 3: arcs flow, hydrogen lands, spin grows */
-    const weylOn = ss(0.60, 0.66, p) * (1 - ss(0.88, 0.96, p));
+    const weylOn = ss(0.66, 0.72, p) * (1 - ss(0.90, 0.97, p));
     for (const r of runners) {
       const u = (r.userData.off + t * 0.10) % 1;
       r.position.copy(r.userData.curve.getPoint(u));
       r.material.opacity = 0.65 * weylOn * Math.sin(u * Math.PI);
     }
-    const uH = ss(0.655, 0.73, p);
+    const uH = ss(0.705, 0.775, p);
     hAtom.position.y = 4.2 - uH * (4.2 + 0.95);
     hGlow.position.copy(hAtom.position);
     hGlow.material.opacity = 0.3 * weylOn * uH;
-    const uSpin = ss(0.74, 0.80, p);
+    const uSpin = ss(0.76, 0.815, p);
     spinGrp.scale.setScalar(Math.max(0.001, uSpin));
     spinGrp.position.copy(hAtom.position).add(V2.set(0, 0.3, 0));
     spinGrp.rotation.z = 0.35 * Math.sin(t * 1.6);
