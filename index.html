@@ -1071,6 +1071,14 @@ function init() {
   }
   window.addEventListener("resize", resize);
   resize();
+  readScroll();
+  prog = targetP;
+
+  /* if the GPU context dies, hide the canvas — the page stays fully usable */
+  renderer.domElement.addEventListener("webglcontextlost", e => {
+    e.preventDefault();
+    glEl.style.display = "none";
+  });
 
   /* theme hook */
   window.__theme3D = (light) => {
