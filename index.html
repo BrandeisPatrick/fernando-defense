@@ -43,7 +43,8 @@ window.SITE_CONFIG = {
 <link rel="preload" as="image" href="fernando-hero.jpg">
 <noscript>
   <style>
-    .countdown, #theme-toggle, #gl { display: none !important; }
+    .countdown, #theme-toggle, #gl, #photos-btn { display: none !important; }
+    .gallery-wrap { display: block !important; }
   </style>
 </noscript>
 
@@ -361,6 +362,10 @@ window.SITE_CONFIG = {
   .papers-note { margin-top: 1.3rem; font-size: 0.9rem; color: var(--muted); font-style: italic; }
 
   /* gallery */
+  .gallery-wrap { display: none; }
+  .gallery-wrap.open { display: block; }
+  html.static .gallery-wrap { display: block; }
+  html.static #photos-btn { display: none; }
   .gallery {
     margin-top: 2.6rem;
     display: grid;
@@ -522,6 +527,35 @@ window.SITE_CONFIG = {
 <!-- ═══ AFTER THE JOURNEY ═══ -->
 <main>
 
+  <section id="defensa">
+    <div class="wrap">
+      <div class="rv">
+        <div class="overline">El evento</div>
+        <h2>La Defensa <span class="en">The Defense</span></h2>
+        <p class="lead">Ven a celebrar con nosotros · Come celebrate with us.</p>
+      </div>
+      <div class="countdown rv stagger" id="countdown" aria-live="off">
+        <div class="cd-cell"><div class="cd-num" id="cd-d">–</div><div class="cd-label">d&iacute;as</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-h">–</div><div class="cd-label">horas</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-m">–</div><div class="cd-label">minutos</div></div>
+        <div class="cd-cell"><div class="cd-num" id="cd-s">–</div><div class="cd-label">segundos</div></div>
+      </div>
+      <div class="defense-card rv">
+        <div class="tbc" id="tbc-chip">POR CONFIRMAR · TO BE CONFIRMED</div>
+        <!-- Static no-JS fallback: keep in sync with SITE_CONFIG -->
+        <div class="defense-when" id="d-when">Lunes 3 de agosto · Monday, August 3, 2026 · Hora por confirmar · Time TBD</div>
+        <div class="defense-where" id="d-where">Atwood Chemistry Center, Emory University · Room TBD</div>
+        <div class="defense-title" id="d-title"></div>
+        <div class="defense-actions">
+          <button class="btn gold" id="ics-btn" type="button"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agendar · Add to calendar</button>
+          <a class="btn" id="gcal-btn" href="#" target="_blank" rel="noopener">Google Calendar</a>
+          <a class="btn" id="zoom-btn" href="#" target="_blank" rel="noopener" style="display:none"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10.5l7-3.5v10l-7-3.5z"/></svg>Zoom</a>
+        </div>
+      </div>
+      <div class="felicidades rv">¡Felicidades, casi-doctor!</div>
+    </div>
+  </section>
+
   <section id="publicaciones">
     <div class="wrap">
       <div class="rv">
@@ -555,45 +589,19 @@ window.SITE_CONFIG = {
   </section>
 
   <section id="momentos">
-    <div class="wrap">
+    <div class="wrap" style="text-align:center">
       <div class="rv">
         <div class="overline">Entre ecuaciones</div>
         <h2>Los momentos <span class="en">The moments in between</span></h2>
+        <button class="btn" id="photos-btn" type="button">Ver las fotos · View the photos</button>
       </div>
-      <div class="gallery rv stagger">
-        <figure class="shot"><img src="photo-ramen.jpg" alt="Fernando smiling behind a large bowl of ramen" loading="lazy"></figure>
-        <figure class="shot"><img src="photo-lights.jpg" alt="Fernando with friends under holiday lights" loading="lazy"></figure>
-        <figure class="shot"><img src="photo-cake.jpg" alt="Fernando laughing in front of a birthday cake with candles" loading="lazy"></figure>
-      </div>
-    </div>
-  </section>
-
-  <section id="defensa">
-    <div class="wrap">
-      <div class="rv">
-        <div class="overline">El evento</div>
-        <h2>La Defensa <span class="en">The Defense</span></h2>
-        <p class="lead">Ven a celebrar con nosotros · Come celebrate with us.</p>
-      </div>
-      <div class="countdown rv stagger" id="countdown" aria-live="off">
-        <div class="cd-cell"><div class="cd-num" id="cd-d">–</div><div class="cd-label">d&iacute;as</div></div>
-        <div class="cd-cell"><div class="cd-num" id="cd-h">–</div><div class="cd-label">horas</div></div>
-        <div class="cd-cell"><div class="cd-num" id="cd-m">–</div><div class="cd-label">minutos</div></div>
-        <div class="cd-cell"><div class="cd-num" id="cd-s">–</div><div class="cd-label">segundos</div></div>
-      </div>
-      <div class="defense-card rv">
-        <div class="tbc" id="tbc-chip">POR CONFIRMAR · TO BE CONFIRMED</div>
-        <!-- Static no-JS fallback: keep in sync with SITE_CONFIG -->
-        <div class="defense-when" id="d-when">Lunes 3 de agosto · Monday, August 3, 2026 · Hora por confirmar · Time TBD</div>
-        <div class="defense-where" id="d-where">Atwood Chemistry Center, Emory University · Room TBD</div>
-        <div class="defense-title" id="d-title"></div>
-        <div class="defense-actions">
-          <button class="btn gold" id="ics-btn" type="button"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agendar · Add to calendar</button>
-          <a class="btn" id="gcal-btn" href="#" target="_blank" rel="noopener">Google Calendar</a>
-          <a class="btn" id="zoom-btn" href="#" target="_blank" rel="noopener" style="display:none"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="6" width="13" height="12" rx="2"/><path d="M15 10.5l7-3.5v10l-7-3.5z"/></svg>Zoom</a>
+      <div class="gallery-wrap" id="gallery-wrap">
+        <div class="gallery">
+          <figure class="shot"><img src="photo-ramen.jpg" alt="Fernando smiling behind a large bowl of ramen" loading="lazy"></figure>
+          <figure class="shot"><img src="photo-lights.jpg" alt="Fernando with friends under holiday lights" loading="lazy"></figure>
+          <figure class="shot"><img src="photo-cake.jpg" alt="Fernando laughing in front of a birthday cake with candles" loading="lazy"></figure>
         </div>
       </div>
-      <div class="felicidades rv">¡Felicidades, casi-doctor!</div>
     </div>
   </section>
 
@@ -653,6 +661,13 @@ window.SITE_CONFIG = {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
   }, { threshold: 0.12 });
   document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+  /* ══ optional photo gallery ══ */
+  const photosBtn = document.getElementById("photos-btn");
+  photosBtn.addEventListener("click", () => {
+    document.getElementById("gallery-wrap").classList.add("open");
+    photosBtn.style.display = "none";
+  });
 
   /* ══ defense info ══ */
   const target = new Date(CFG.dateISO);
@@ -790,6 +805,7 @@ window.SITE_CONFIG = {
    3. NbP slab with flowing Fermi-arc currents; hydrogen lands, gains spin
    Scroll position drives the camera along a keyframed path through all three. */
 import * as THREE from "three";
+import { RoomEnvironment } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/environments/RoomEnvironment.js";
 
 const NO3D = window.__NO3D;
 const P_FREEZE = window.__P_FREEZE;
@@ -805,24 +821,30 @@ function init() {
   const glEl = document.getElementById("gl");
   glEl.appendChild(renderer.domElement);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 200);
 
+  /* studio environment lighting — the big realism lever */
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
   /* ── lights ── */
-  const hemi = new THREE.HemisphereLight(0xffffff, 0x8892a8, 1.0);
-  const dir = new THREE.DirectionalLight(0xffffff, 1.4);
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x8892a8, 0.5);
+  const dir = new THREE.DirectionalLight(0xffffff, 1.0);
   dir.position.set(6, 10, 6);
   scene.add(hemi, dir);
 
   /* ── palette (theme-aware) ── */
   const mats = {
-    ink: new THREE.MeshStandardMaterial({ color: 0x2a2f3d, roughness: 0.55, metalness: 0.1 }),
-    teal: new THREE.MeshStandardMaterial({ color: 0x0e7490, roughness: 0.45, metalness: 0.1 }),
-    violet: new THREE.MeshStandardMaterial({ color: 0x5b21b6, roughness: 0.45, metalness: 0.1 }),
-    gold: new THREE.MeshStandardMaterial({ color: 0xa87b00, roughness: 0.35, metalness: 0.25, emissive: 0xa87b00, emissiveIntensity: 0 }),
-    bond: new THREE.MeshStandardMaterial({ color: 0x9aa0b0, roughness: 0.7, metalness: 0 }),
-    lattice: new THREE.MeshStandardMaterial({ color: 0x3a4054, roughness: 0.6, metalness: 0.1 }),
+    ink: new THREE.MeshStandardMaterial({ color: 0x2a2f3d, roughness: 0.32, metalness: 0.3 }),
+    teal: new THREE.MeshStandardMaterial({ color: 0x0e7490, roughness: 0.35, metalness: 0.2 }),
+    violet: new THREE.MeshStandardMaterial({ color: 0x5b21b6, roughness: 0.32, metalness: 0.25 }),
+    gold: new THREE.MeshStandardMaterial({ color: 0xa87b00, roughness: 0.22, metalness: 0.75, emissive: 0xa87b00, emissiveIntensity: 0 }),
+    bond: new THREE.MeshStandardMaterial({ color: 0x9aa0b0, roughness: 0.35, metalness: 0.6 }),
+    lattice: new THREE.MeshStandardMaterial({ color: 0x3a4054, roughness: 0.4, metalness: 0.25 }),
     dot: new THREE.MeshStandardMaterial({ color: 0x11809e, roughness: 0.3, metalness: 0.15 }),
   };
   const ringMatA = new THREE.MeshBasicMaterial({ color: 0x2a2f3d, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
@@ -847,7 +869,7 @@ function init() {
     return s;
   }
 
-  const sphereGeo = new THREE.SphereGeometry(1, 24, 18);
+  const sphereGeo = new THREE.SphereGeometry(1, 32, 24);
 
   function molecule(mat, scale = 1) {
     const g = new THREE.Group();
@@ -1098,8 +1120,8 @@ function init() {
   window.__theme3D = (light) => {
     const fogColor = light ? 0xffffff : 0x060913;
     scene.fog = new THREE.Fog(fogColor, 18, 64);
-    hemi.intensity = light ? 1.0 : 0.55;
-    dir.intensity = light ? 1.4 : 0.9;
+    hemi.intensity = light ? 0.5 : 0.3;
+    dir.intensity = light ? 1.0 : 0.55;
     mats.ink.color.set(light ? 0x2a2f3d : 0xdfe6f5);
     mats.teal.color.set(light ? 0x0e7490 : 0x2ec6e6);
     mats.violet.color.set(light ? 0x5b21b6 : 0xa78bfa);
