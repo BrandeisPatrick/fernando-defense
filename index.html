@@ -21,10 +21,10 @@
    ════════════════════════════════════════════════════════════════════ */
 window.SITE_CONFIG = {
   defense: {
-    confirmed: false,                          // ← flip to true when official
-    dateISO: "2026-08-21T14:00:00-04:00",      // ← ISO date+time with timezone
-    displayDate: "Friday, August 21, 2026",    // ← shown to visitors
-    displayTime: "2:00 PM · Eastern Time",     // ← shown to visitors
+    confirmed: false,                          // ← flip to true when time/room are official
+    dateISO: "2026-08-03T10:00:00-04:00",      // ← ISO date+time with timezone (time still provisional)
+    displayDate: "Lunes 3 de agosto · Monday, August 3, 2026",
+    displayTime: "Hora por confirmar · Time TBD",
     location: "Atwood Chemistry Center, Emory University",
     room: "Room TBD",
     talkTitle: "Molecules at Quantum-Material Interfaces: Fano Resonances, Topological Chemisorption & Spin",  // ← replace with real dissertation title
@@ -293,6 +293,14 @@ window.SITE_CONFIG = {
     font-weight: 600;
     font-size: clamp(1.05rem, 2.6vw, 1.3rem);
     color: var(--muted);
+  }
+  .hero-date {
+    margin-top: 0.4rem;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    color: var(--a3);
   }
   .ico {
     width: 1.05em; height: 1.05em;
@@ -622,6 +630,7 @@ window.SITE_CONFIG = {
       <div class="hero-overline">Emory University · <span style="white-space:nowrap">The Ribeiro Group</span></div>
       <h1>Fernando Martinez</h1>
       <p class="hero-sub">Defensa doctoral · PhD Dissertation Defense</p>
+      <p class="hero-date" id="hero-date">Lunes 3 de agosto · Monday, August 3, 2026</p>
       <div class="hero-cta">
         <a class="btn gold" href="#defense"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5 12 5l10 4.5L12 14 2 9.5z"/><path d="M6.5 11.8V16c0 1.3 11 1.3 11 0v-4.2"/><path d="M22 9.5V15"/></svg>La defensa · The defense</a>
       </div>
@@ -762,7 +771,7 @@ window.SITE_CONFIG = {
       <div class="defense-card rv">
         <div class="tbc" id="tbc-chip">POR CONFIRMAR · TO BE CONFIRMED</div>
         <!-- The static text below is the no-JavaScript fallback: keep it in sync with SITE_CONFIG at the top of this file -->
-        <div class="defense-when" id="d-when">Friday, August 21, 2026 · 2:00 PM · Eastern Time</div>
+        <div class="defense-when" id="d-when">Lunes 3 de agosto · Monday, August 3, 2026 · Hora por confirmar · Time TBD</div>
         <div class="defense-where" id="d-where">Atwood Chemistry Center, Emory University · Room TBD</div>
         <div class="defense-title" id="d-title"></div>
         <div class="defense-actions">
@@ -1360,8 +1369,11 @@ window.SITE_CONFIG = {
   const target = new Date(CFG.dateISO);
   const validDate = !isNaN(target.getTime());
   const nowrap = s => `<span style="white-space:nowrap">${s}</span>`;
-  document.getElementById("d-when").innerHTML = `${nowrap(CFG.displayDate)} ${nowrap("· " + CFG.displayTime)}`;
+  /* split on " · " so each phrase stays whole but lines can break between phrases */
+  document.getElementById("d-when").innerHTML = (CFG.displayDate + " · " + CFG.displayTime)
+    .split(" · ").map((p, i) => i ? nowrap("· " + p) : nowrap(p)).join(" ");
   document.getElementById("d-where").innerHTML = `${nowrap(CFG.location)}${CFG.room ? " " + nowrap("· " + CFG.room) : ""}`;
+  document.getElementById("hero-date").textContent = CFG.displayDate;
   if (CFG.talkTitle) document.getElementById("d-title").textContent = "“" + CFG.talkTitle + "”";
   if (CFG.confirmed) document.getElementById("tbc-chip").style.display = "none";
   if (CFG.zoomLink) {
