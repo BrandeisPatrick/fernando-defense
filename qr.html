@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR code for the poster</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #060913; color: #e9edf8;
+    font-family: "Inter", system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .panel {
+    max-width: 460px; width: 100%;
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    padding: 2.2rem;
+    text-align: center;
+  }
+  h1 { font-size: 1.3rem; margin-bottom: 0.4rem; }
+  p { color: #96a0bd; font-size: 0.88rem; margin-bottom: 1.4rem; }
+  input {
+    width: 100%;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    color: #e9edf8;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+    padding: 0.8em 1em;
+    margin-bottom: 1rem;
+  }
+  input:focus { outline: none; border-color: #59e7ff; }
+  button {
+    background: linear-gradient(100deg, rgba(255,209,102,0.2), rgba(167,139,250,0.2));
+    border: 1px solid rgba(255,209,102,0.5);
+    color: #e9edf8;
+    font-weight: 600; font-size: 0.9rem;
+    padding: 0.7em 1.6em;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  #qr {
+    display: none;
+    margin: 1.6rem auto 0.8rem;
+    padding: 16px;
+    background: #fff;
+    border-radius: 16px;
+    width: fit-content;
+  }
+  #dl { display: none; color: #59e7ff; font-size: 0.85rem; }
+  .tip { font-size: 0.75rem; color: #96a0bd; margin-top: 1.2rem; margin-bottom: 0; opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="panel">
+  <h1>Poster QR code</h1>
+  <p>Paste the deployed site URL, generate, then drop the PNG onto the poster.</p>
+  <input id="url" type="url" placeholder="https://your-site-url.netlify.app" value="">
+  <button id="go">Generate QR</button>
+  <div id="qr"></div>
+  <a id="dl" href="#" download="fernando-defense-qr.png">⬇ Download PNG</a>
+  <p class="tip">Poster tips: print the QR at least 2.5 cm (1 inch) wide per meter of expected scanning distance, keep the white border, and test-scan the printed poster before the big day.</p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<script>
+  const box = document.getElementById("qr");
+  document.getElementById("go").addEventListener("click", () => {
+    if (typeof QRCode === "undefined") return alert("QR library failed to load — check your connection and reload the page.");
+    const url = document.getElementById("url").value.trim();
+    if (!url) return alert("Paste the site URL first!");
+    box.innerHTML = "";
+    box.style.display = "block";
+    new QRCode(box, {
+      text: url,
+      width: 320,
+      height: 320,
+      colorDark: "#060913",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
+    });
+    setTimeout(() => {
+      const img = box.querySelector("img") || box.querySelector("canvas");
+      if (!img) return;
+      const dl = document.getElementById("dl");
+      dl.href = img.tagName === "IMG" ? img.src : img.toDataURL("image/png");
+      dl.style.display = "inline-block";
+    }, 300);
+  });
+</script>
+</body>
+</html>
