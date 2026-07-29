@@ -1019,8 +1019,10 @@ function init() {
     new THREE.QuadraticBezierCurve3(new THREE.Vector3(-5.8, -1.35, WEYL_Z + 0.6), new THREE.Vector3(0.4, -1.1, WEYL_Z + 2.2), new THREE.Vector3(5.8, -1.35, WEYL_Z + 0.2)),
     new THREE.QuadraticBezierCurve3(new THREE.Vector3(-5.2, -1.35, WEYL_Z + 3.4), new THREE.Vector3(-0.4, -1.15, WEYL_Z + 1.2), new THREE.Vector3(5.4, -1.35, WEYL_Z + 3.8)),
   ];
+  const arcTubes = [];
   for (const c of arcCurves) {
     const tube = new THREE.Mesh(new THREE.TubeGeometry(c, 40, 0.045, 8), mats.gold);
+    arcTubes.push(tube);
     scene.add(tube);
   }
   const runners = [];
@@ -1147,6 +1149,22 @@ function init() {
 
     camAt(p);
 
+    /* chapter visibility windows — keep distant chapters from ghosting through the fog */
+    const showHero = p < 0.24;
+    const showChain = p < 0.40;
+    const showFano = p > 0.365 && p < 0.66;
+    const showWeyl = p > 0.56;
+    orbitGrp.visible = showHero;
+    chainGrp.visible = showChain;
+    edgeGlowL.visible = showChain; edgeGlowR.visible = showChain;
+    qd.visible = showFano; fanoMol.visible = showFano; fanoGlow.visible = showFano;
+    for (const r of ringsA) r.visible = showFano;
+    for (const r of ringsB) r.visible = showFano;
+    slab.visible = showWeyl;
+    for (const tb of arcTubes) tb.visible = showWeyl;
+    for (const r of runners) r.visible = showWeyl;
+    hAtom.visible = showWeyl; hGlow.visible = showWeyl; spinGrp.visible = showWeyl;
+
     /* stage cards */
     for (const [el, a, b, c, d] of STAGES) {
       const o = (a < 0 ? 1 : ss(a, b, p)) * (1 - ss(c, d, p));
@@ -1182,7 +1200,7 @@ function init() {
     edgeGlowR.material.opacity = 0.85 * edgePulse;
     const uDock = ss(0.285, 0.335, p);
     if (uDock > 0 && uDock < 1.01) {
-      dockMol.visible = p < 0.44;
+      dockMol.visible = p < 0.40;
       const start = V2.set(dockTarget.x - 3.5, dockTarget.y + 6.5, dockTarget.z - 5);
       dockMol.position.lerpVectors(start, dockTarget, uDock);
       dockMol.position.y += Math.sin(uDock * Math.PI) * 1.6;
